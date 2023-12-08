@@ -38,6 +38,7 @@ def print_list(list, message):
 def check_word(guess, answer):
     answer = list(answer)
     result = [None] * len(answer)
+
     # Greens
     for i in range(len(answer) - 1, -1, -1):
         if guess[i] == answer[i]:
@@ -45,7 +46,7 @@ def check_word(guess, answer):
             answer.pop(i)
 
     # Yellows
-    for i in range(len(answer) - 1, -1, -1):
+    for i in range(len(guess) - 1, -1, -1):
         if guess[i] in answer:
             result[i] = [guess[i].upper(), Fore.YELLOW]
             answer.pop(answer.index(guess[i]))
@@ -60,7 +61,7 @@ def check_word(guess, answer):
 def list_to_string(list):
     string = '|'
     for i in range(len(list)):
-        if i == int(len(list)/2):
+        if list[i][0] in ['A', 'Z']:
             string += '\n|'
         string += (list[i][1]+list[i][0]+Fore.RESET+'|')
     return string
@@ -100,7 +101,7 @@ class Word:
             self.word = random.choice(self.words)
         
         # Initialize variables
-        letters = [['A', Fore.WHITE], ['B', Fore.WHITE], ['C', Fore.WHITE], ['D', Fore.WHITE], ['E', Fore.WHITE], ['F', Fore.WHITE], ['G', Fore.WHITE], ['H', Fore.WHITE], ['I', Fore.WHITE], ['J', Fore.WHITE], ['K', Fore.WHITE], ['L', Fore.WHITE], ['M', Fore.WHITE], ['N', Fore.WHITE], ['O', Fore.WHITE], ['P', Fore.WHITE], ['Q', Fore.WHITE], ['R', Fore.WHITE], ['S', Fore.WHITE], ['T', Fore.WHITE], ['U', Fore.WHITE], ['V', Fore.WHITE], ['W', Fore.WHITE], ['X', Fore.WHITE], ['Y', Fore.WHITE], ['Z', Fore.WHITE]]
+        letters = [['Q', Fore.WHITE], ['W', Fore.WHITE], ['E', Fore.WHITE], ['R', Fore.WHITE], ['T', Fore.WHITE], ['Y', Fore.WHITE], ['U', Fore.WHITE], ['I', Fore.WHITE], ['O', Fore.WHITE], ['P', Fore.WHITE], ['A', Fore.WHITE], ['S', Fore.WHITE], ['D', Fore.WHITE], ['F', Fore.WHITE], ['G', Fore.WHITE], ['H', Fore.WHITE], ['J', Fore.WHITE], ['K', Fore.WHITE], ['L', Fore.WHITE], ['Z', Fore.WHITE], ['X', Fore.WHITE], ['C', Fore.WHITE], ['V', Fore.WHITE], ['B', Fore.WHITE], ['N', Fore.WHITE], ['M', Fore.WHITE]]
         guess_count = 0
         guess = ' '
         guesses = [[[' ', Fore.WHITE], [' ', Fore.WHITE], [' ', Fore.WHITE], [' ', Fore.WHITE], [' ', Fore.WHITE]], [[' ', Fore.WHITE], [' ', Fore.WHITE], [' ', Fore.WHITE], [' ', Fore.WHITE], [' ', Fore.WHITE]], [[' ', Fore.WHITE], [' ', Fore.WHITE], [' ', Fore.WHITE], [' ', Fore.WHITE], [' ', Fore.WHITE]], [[' ', Fore.WHITE], [' ', Fore.WHITE], [' ', Fore.WHITE], [' ', Fore.WHITE], [' ', Fore.WHITE]], [[' ', Fore.WHITE], [' ', Fore.WHITE], [' ', Fore.WHITE], [' ', Fore.WHITE], [' ', Fore.WHITE]], [[' ', Fore.WHITE], [' ', Fore.WHITE], [' ', Fore.WHITE], [' ', Fore.WHITE], [' ', Fore.WHITE]]]
@@ -123,5 +124,7 @@ class Word:
                 guesses[guess_count] = checked
                 guess_count += 1
         clear_screen()
-        print_list(guesses)
+        print_list(guesses, list_to_string(letters))
         print(f'WORD WAS: {self.word.upper()}')
+        input('Press Enter to Play Again . . .')
+        self.play()

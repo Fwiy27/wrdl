@@ -115,6 +115,10 @@ class Word:
 
             # Check for validity
             valid = True
+            if guess == 'exit':
+                clear_screen()
+                exit()
+                
             if len(guess) != 5 or guess not in self.words:
                 valid = False
             

@@ -40,19 +40,19 @@ def check_word(guess, answer):
     result = [None] * len(answer)
 
     # Greens
-    for i in range(len(answer) - 1, -1, -1):
+    for i in range(len(guess) - 1, -1, -1):
         if guess[i] == answer[i]:
             result[i] = [guess[i].upper(), Fore.GREEN]
-            answer.pop(i)
+            answer[i] = None
 
     # Yellows
     for i in range(len(guess) - 1, -1, -1):
-        if guess[i] in answer:
+        if guess[i] in answer and result[i] == None:
             result[i] = [guess[i].upper(), Fore.YELLOW]
-            answer.pop(answer.index(guess[i]))
+            answer[i] = None
 
     # Whites
-    for i in range(len(result) - 1, -1, -1):
+    for i in range(len(result)):
         if result[i] == None:
             result[i] = [guess[i].upper(), Fore.WHITE]
 

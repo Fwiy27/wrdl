@@ -36,27 +36,27 @@ def print_list(list, message):
             print_word(list[i])
 
 def check_word(guess, answer):
-    answer = list(answer)
-    result = [None] * len(answer)
+    ret = [None] * 5
+    compare = list(answer)
 
     # Greens
-    for i in range(len(guess) - 1, -1, -1):
-        if guess[i] == answer[i]:
-            result[i] = [guess[i].upper(), Fore.GREEN]
-            answer[i] = None
+    for i in range(len(guess)):
+        if guess[i] == compare[i]:
+            ret[i] = [guess[i].upper(), Fore.GREEN]
+            compare[i] = None
 
     # Yellows
-    for i in range(len(guess) - 1, -1, -1):
-        if guess[i] in answer and result[i] == None:
-            result[i] = [guess[i].upper(), Fore.YELLOW]
-            answer[i] = None
+    for i in range(len(guess)):
+        if guess[i] in compare:
+            ret[i] = [guess[i].upper(), Fore.YELLOW]
+            compare[compare.index(guess[i])] = None
 
     # Whites
-    for i in range(len(result)):
-        if result[i] == None:
-            result[i] = [guess[i].upper(), Fore.WHITE]
+    for i in range(len(ret)):
+        if ret[i] == None:
+            ret[i] = [guess[i].upper(), Fore.WHITE]
 
-    return result
+    return ret
 
 def list_to_string(list):
     string = '|'
@@ -70,6 +70,7 @@ def update_letters(letters, checked):
     greens = []
     reds = []
     yellows = []
+
     for i in range(len(checked)):
         if checked[i][1] == Fore.GREEN:
             greens.append(checked[i][0])
@@ -81,10 +82,11 @@ def update_letters(letters, checked):
     for i in range(len(letters)):
         if letters[i][0] in greens:
             letters[i][1] = Fore.GREEN
-        elif letters[i][0] in yellows and letters[i][0] != Fore.GREEN:
+        elif letters[i][0] not in greens and letters[i][1] != Fore.GREEN and letters[i][0] in yellows:
             letters[i][1] = Fore.YELLOW
         elif letters[i][0] in reds and letters[i][0] not in [Fore.GREEN, Fore.YELLOW]:
             letters[i][1] = Fore.RED
+
     return letters
 
 
@@ -131,4 +133,5 @@ class Word:
         print_list(guesses, list_to_string(letters))
         print(f'WORD WAS: {self.word.upper()}')
         input('Press Enter to Play Again . . .')
+
         self.play()

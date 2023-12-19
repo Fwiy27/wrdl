@@ -40,14 +40,14 @@ def check_word(guess, answer):
     compare = list(answer)
 
     # Greens
-    for i in range(len(guess)):
+    for i in range(len(guess)-1, -1, -1):
         if guess[i] == compare[i]:
             ret[i] = [guess[i].upper(), Fore.GREEN]
             compare[i] = None
 
     # Yellows
     for i in range(len(guess)):
-        if guess[i] in compare:
+        if guess[i] in compare and ret[i] == None:
             ret[i] = [guess[i].upper(), Fore.YELLOW]
             compare[compare.index(guess[i])] = None
 
